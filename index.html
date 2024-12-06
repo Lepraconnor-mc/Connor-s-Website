@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #000080; /* Navy blue background */
+            color: white;
             margin: 0;
             padding: 0;
         }
@@ -31,6 +32,7 @@
             align-items: center;
             margin-top: 20px;
             padding: 0 20px;
+            flex-wrap: wrap;
         }
 
         /* List of shows styling */
@@ -66,16 +68,22 @@
             background-color: #3cb371;
         }
 
-        /* Image box */
+        /* Image box with automatic sizing */
         .image-box {
-            width: 40%;
-            height: 300px;
-            border: 2px solid #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: inline-block;
+            max-width: 100%;
+            height: auto;
             background-color: #fff;
             border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for the image inside the box */
+        .image-box img {
+            width: 100%;  /* Make the image fill the container */
+            height: auto; /* Maintain the aspect ratio */
+            object-fit: contain;  /* Ensures the image is scaled correctly */
         }
 
         /* Styling for the Pong game */
@@ -107,8 +115,17 @@
         .scoreboard {
             text-align: center;
             font-size: 24px;
-            color: black; /* Changed the color to black */
+            color: black;
             margin-top: 10px;
+        }
+
+        /* Message for winning */
+        .win-message {
+            font-size: 32px;
+            color: yellow;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
         }
 
     </style>
@@ -132,7 +149,7 @@
         </div>
         <div class="image-box">
             <!-- Placeholder for Image -->
-            <img id="image" src="LT.jpg" alt="Image" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+            <img id="image" src="myImage.jpg" alt="Image">
         </div>
     </div>
 
@@ -148,6 +165,11 @@
         <div class="ball" id="ball" style="top: 50%; left: 50%;"></div>
     </div>
 
+    <!-- Win message -->
+    <div class="win-message" id="winMessage">
+        You Win!
+    </div>
+
     <script>
         // Pong game script with scoring
         const pong = document.getElementById("pong");
@@ -156,6 +178,7 @@
         const ball = document.getElementById("ball");
         const leftScore = document.getElementById("leftScore");
         const rightScore = document.getElementById("rightScore");
+        const winMessage = document.getElementById("winMessage");
 
         let ballSpeedX = 4;
         let ballSpeedY = 4;
@@ -216,6 +239,19 @@
                 resetBall();
             }
 
+            // Check for winner
+            if (leftPlayerScore === 11) {
+                winMessage.textContent = "Left Player Wins!";
+                winMessage.style.display = "block";
+                resetBall();
+            }
+
+            if (rightPlayerScore === 11) {
+                winMessage.textContent = "Right Player Wins!";
+                winMessage.style.display = "block";
+                resetBall();
+            }
+
             leftPaddle.style.top = leftPaddleY + "px";
             rightPaddle.style.top = rightPaddleY + "px";
             ball.style.top = ballPositionY + "px";
@@ -228,7 +264,7 @@
         function resetBall() {
             ballPositionX = pong.offsetWidth / 2 - 7.5;
             ballPositionY = pong.offsetHeight / 2 - 7.5;
-            ballSpeedX = -ballSpeedX;
+            ballSpeedX = 4;
             ballSpeedY = 4;
         }
 
