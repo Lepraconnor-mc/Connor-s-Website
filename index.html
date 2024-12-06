@@ -11,7 +11,106 @@
             margin: 0;
             padding: 0;
         }
-        /* Additional styles here... */
+
+        /* Styling for the bubble letters title */
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ff6347;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        /* Content section with flexbox */
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
+        /* List of shows styling */
+        .shows {
+            width: 50%;
+            margin-right: 20px;
+            font-size: 18px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .shows ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .shows li {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Alternate colors for the list items */
+        .shows li:nth-child(odd) {
+            background-color: #ff6347;
+        }
+
+        .shows li:nth-child(even) {
+            background-color: #3cb371;
+        }
+
+        /* Image box */
+        .image-box {
+            width: 40%;
+            height: 300px;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        /* Styling for the Pong game */
+        #pong {
+            background-color: #000;
+            margin: 20px auto;
+            width: 500px;
+            height: 300px;
+            position: relative;
+            border: 2px solid #fff;
+        }
+
+        .paddle {
+            position: absolute;
+            width: 15px;
+            height: 60px;
+            background-color: white;
+        }
+
+        .ball {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        /* Score display */
+        .scoreboard {
+            text-align: center;
+            font-size: 24px;
+            color: black; /* Changed the color to black */
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -33,18 +132,108 @@
         </div>
         <div class="image-box">
             <!-- Placeholder for Image -->
-            <img id="image" src="myImage.jpg" alt="Image" style="max-width: 100%; max-height: 100%; object-fit: cover;">
+            <img id="image" src="" alt="Image" style="max-width: 100%; max-height: 100%; object-fit: cover;">
         </div>
     </div>
 
-    <!-- Button to Change Image -->
-    <button onclick="changeImage()">Change Image</button>
+    <!-- Scoreboard for Pong -->
+    <div class="scoreboard">
+        <span id="leftScore">0</span> - <span id="rightScore">0</span>
+    </div>
+
+    <!-- Pong Game -->
+    <div id="pong">
+        <div class="paddle" id="leftPaddle" style="left: 0;"></div>
+        <div class="paddle" id="rightPaddle" style="right: 0;"></div>
+        <div class="ball" id="ball" style="top: 50%; left: 50%;"></div>
+    </div>
 
     <script>
-        function changeImage() {
-            const image = document.getElementById("image");
-            image.src = "newImage.jpg";  // Change this to your new image file
+        // Pong game script with scoring
+        const pong = document.getElementById("pong");
+        const leftPaddle = document.getElementById("leftPaddle");
+        const rightPaddle = document.getElementById("rightPaddle");
+        const ball = document.getElementById("ball");
+        const leftScore = document.getElementById("leftScore");
+        const rightScore = document.getElementById("rightScore");
+
+        let ballSpeedX = 4;
+        let ballSpeedY = 4;
+        let ballPositionX = pong.offsetWidth / 2 - 7.5;
+        let ballPositionY = pong.offsetHeight / 2 - 7.5;
+
+        let leftPaddleY = pong.offsetHeight / 2 - 30;
+        let rightPaddleY = pong.offsetHeight / 2 - 30;
+
+        let paddleSpeed = 20;
+
+        let leftPlayerScore = 0;
+        let rightPlayerScore = 0;
+
+        // Move the paddles
+        window.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowUp" && rightPaddleY > 0) {
+                rightPaddleY -= paddleSpeed;
+            } else if (event.key === "ArrowDown" && rightPaddleY < pong.offsetHeight - 60) {
+                rightPaddleY += paddleSpeed;
+            }
+
+            if (event.key === "w" && leftPaddleY > 0) {
+                leftPaddleY -= paddleSpeed;
+            } else if (event.key === "s" && leftPaddleY < pong.offsetHeight - 60) {
+                leftPaddleY += paddleSpeed;
+            }
+        });
+
+        // Function to update the ball position and scoring
+        function updateBallPosition() {
+            ballPositionX += ballSpeedX;
+            ballPositionY += ballSpeedY;
+
+            if (ballPositionY <= 0 || ballPositionY >= pong.offsetHeight - 15) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            if (ballPositionX <= 15 && ballPositionY >= leftPaddleY && ballPositionY <= leftPaddleY + 60) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            if (ballPositionX >= pong.offsetWidth - 30 && ballPositionY >= rightPaddleY && ballPositionY <= rightPaddleY + 60) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            if (ballPositionX <= 0) {
+                // Right player scores
+                rightPlayerScore++;
+                rightScore.textContent = rightPlayerScore;
+                resetBall();
+            }
+
+            if (ballPositionX >= pong.offsetWidth - 15) {
+                // Left player scores
+                leftPlayerScore++;
+                leftScore.textContent = leftPlayerScore;
+                resetBall();
+            }
+
+            leftPaddle.style.top = leftPaddleY + "px";
+            rightPaddle.style.top = rightPaddleY + "px";
+            ball.style.top = ballPositionY + "px";
+            ball.style.left = ballPositionX + "px";
+
+            requestAnimationFrame(updateBallPosition);
         }
+
+        // Function to reset ball to the center
+        function resetBall() {
+            ballPositionX = pong.offsetWidth / 2 - 7.5;
+            ballPositionY = pong.offsetHeight / 2 - 7.5;
+            ballSpeedX = -ballSpeedX;
+            ballSpeedY = 4;
+        }
+
+        // Start the game loop
+        updateBallPosition();
     </script>
 
 </body>
