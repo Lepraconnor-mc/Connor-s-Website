@@ -24,10 +24,17 @@
             margin-top: 20px;
         }
 
+        /* Layout for the shows section and image */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+
         /* List of shows styling */
         .shows {
-            margin-left: 20px;
-            font-size: 18px;
+            width: 60%;
         }
 
         .shows ul {
@@ -41,8 +48,7 @@
 
         /* Image box */
         .image-box {
-            margin: 20px auto;
-            width: 400px;
+            width: 35%;
             height: 300px;
             border: 2px solid #333;
             display: flex;
@@ -51,7 +57,7 @@
             background-color: #fff;
         }
 
-        /* Simple Pong Game */
+        /* Styling for the Pong game */
         #pong {
             background-color: #000;
             margin: 20px auto;
@@ -75,6 +81,15 @@
             background-color: white;
             border-radius: 50%;
         }
+
+        /* Score display */
+        .scoreboard {
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -82,22 +97,27 @@
     <!-- Title -->
     <div class="title">Connor's Website</div>
 
-    <!-- List of Shows -->
-    <div class="shows">
-        <h2>List of Shows I've Done:</h2>
-        <ul>
-            <li>Shrek Jr. - Gingerbread man</li>
-            <li>Bystander 9/11 - Stage Crew</li>
-            <li>Finding Nemo Jr. - Bruce</li>
-            <li>Moana Jr. - Hei Hei</li>
-            <li>Percy Jackson: The Lightning Thief - Grover</li>
-        </ul>
+    <!-- Content Section: Shows List & Image Box -->
+    <div class="content">
+        <div class="shows">
+            <h2>List of Shows I've Done:</h2>
+            <ul>
+                <li>Shrek Jr. - Gingerbread man</li>
+                <li>Bystander 9/11 - Stage Crew</li>
+                <li>Finding Nemo Jr. - Bruce</li>
+                <li>Moana Jr. - Hei Hei</li>
+                <li>Percy Jackson: The Lightning Thief - Grover</li>
+            </ul>
+        </div>
+        <div class="image-box">
+            <!-- Placeholder for Image -->
+            <img id="image" src="" alt="Image" style="max-width: 100%; max-height: 100%;">
+        </div>
     </div>
 
-    <!-- Image Box -->
-    <div class="image-box">
-        <!-- Placeholder for Image -->
-        <img id="image" src="" alt="Image" style="max-width: 100%; max-height: 100%;">
+    <!-- Scoreboard for Pong -->
+    <div class="scoreboard">
+        <span id="leftScore">0</span> - <span id="rightScore">0</span>
     </div>
 
     <!-- Pong Game -->
@@ -108,11 +128,13 @@
     </div>
 
     <script>
-        // Pong game script
+        // Pong game script with scoring
         const pong = document.getElementById("pong");
         const leftPaddle = document.getElementById("leftPaddle");
         const rightPaddle = document.getElementById("rightPaddle");
         const ball = document.getElementById("ball");
+        const leftScore = document.getElementById("leftScore");
+        const rightScore = document.getElementById("rightScore");
 
         let ballSpeedX = 4;
         let ballSpeedY = 4;
@@ -123,6 +145,9 @@
         let rightPaddleY = pong.offsetHeight / 2 - 30;
 
         let paddleSpeed = 20;
+
+        let leftPlayerScore = 0;
+        let rightPlayerScore = 0;
 
         // Move the paddles
         window.addEventListener('keydown', function(event) {
@@ -139,7 +164,7 @@
             }
         });
 
-        // Function to update the ball position
+        // Function to update the ball position and scoring
         function updateBallPosition() {
             ballPositionX += ballSpeedX;
             ballPositionY += ballSpeedY;
@@ -156,11 +181,18 @@
                 ballSpeedX = -ballSpeedX;
             }
 
-            if (ballPositionX <= 0 || ballPositionX >= pong.offsetWidth - 15) {
-                ballPositionX = pong.offsetWidth / 2 - 7.5;
-                ballPositionY = pong.offsetHeight / 2 - 7.5;
-                ballSpeedX = -ballSpeedX;
-                ballSpeedY = 4;
+            if (ballPositionX <= 0) {
+                // Right player scores
+                rightPlayerScore++;
+                rightScore.textContent = rightPlayerScore;
+                resetBall();
+            }
+
+            if (ballPositionX >= pong.offsetWidth - 15) {
+                // Left player scores
+                leftPlayerScore++;
+                leftScore.textContent = leftPlayerScore;
+                resetBall();
             }
 
             leftPaddle.style.top = leftPaddleY + "px";
@@ -171,9 +203,18 @@
             requestAnimationFrame(updateBallPosition);
         }
 
+        // Function to reset ball to the center
+        function resetBall() {
+            ballPositionX = pong.offsetWidth / 2 - 7.5;
+            ballPositionY = pong.offsetHeight / 2 - 7.5;
+            ballSpeedX = -ballSpeedX;
+            ballSpeedY = 4;
+        }
+
         // Start the game loop
         updateBallPosition();
     </script>
 
 </body>
 </html>
+
