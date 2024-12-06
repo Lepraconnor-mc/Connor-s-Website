@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connor's Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
 
+        /* Styling for the bubble letters title */
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ff6347;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        /* List of shows styling */
+        .shows {
+            margin-left: 20px;
+            font-size: 18px;
+        }
+
+        .shows ul {
+            list-style-type: disc;
+            padding-left: 40px;
+        }
+
+        .shows li {
+            margin-bottom: 10px;
+        }
+
+        /* Image box */
+        .image-box {
+            margin: 20px auto;
+            width: 400px;
+            height: 300px;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        /* Simple Pong Game */
+        #pong {
+            background-color: #000;
+            margin: 20px auto;
+            width: 500px;
+            height: 300px;
+            position: relative;
+            border: 2px solid #fff;
+        }
+
+        .paddle {
+            position: absolute;
+            width: 15px;
+            height: 60px;
+            background-color: white;
+        }
+
+        .ball {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title -->
+    <div class="title">Connor's Website</div>
+
+    <!-- List of Shows -->
+    <div class="shows">
+        <h2>List of Shows I've Done:</h2>
+        <ul>
+            <li>Shrek Jr. - Gingerbread man</li>
+            <li>Bystander 9/11 - Stage Crew</li>
+            <li>Finding Nemo Jr. - Bruce</li>
+            <li>Moana Jr. - Hei Hei</li>
+            <li>Percy Jackson: The Lightning Thief - Grover</li>
+        </ul>
+    </div>
+
+    <!-- Image Box -->
+    <div class="image-box">
+        <!-- Placeholder for Image -->
+        <img id="image" src="" alt="Image" style="max-width: 100%; max-height: 100%;">
+    </div>
+
+    <!-- Pong Game -->
+    <div id="pong">
+        <div class="paddle" id="leftPaddle" style="left: 0;"></div>
+        <div class="paddle" id="rightPaddle" style="right: 0;"></div>
+        <div class="ball" id="ball" style="top: 50%; left: 50%;"></div>
+    </div>
+
+    <script>
+        // Pong game script
+        const pong = document.getElementById("pong");
+        const leftPaddle = document.getElementById("leftPaddle");
+        const rightPaddle = document.getElementById("rightPaddle");
+        const ball = document.getElementById("ball");
+
+        let ballSpeedX = 4;
+        let ballSpeedY = 4;
+        let ballPositionX = pong.offsetWidth / 2 - 7.5;
+        let ballPositionY = pong.offsetHeight / 2 - 7.5;
+
+        let leftPaddleY = pong.offsetHeight / 2 - 30;
+        let rightPaddleY = pong.offsetHeight / 2 - 30;
+
+        let paddleSpeed = 20;
+
+        // Move the paddles
+        window.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowUp" && rightPaddleY > 0) {
+                rightPaddleY -= paddleSpeed;
+            } else if (event.key === "ArrowDown" && rightPaddleY < pong.offsetHeight - 60) {
+                rightPaddleY += paddleSpeed;
+            }
+
+            if (event.key === "w" && leftPaddleY > 0) {
+                leftPaddleY -= paddleSpeed;
+            } else if (event.key === "s" && leftPaddleY < pong.offsetHeight - 60) {
+                leftPaddleY += paddleSpeed;
+            }
+        });
+
+        // Function to update the ball position
+        function updateBallPosition() {
+            ballPositionX += ballSpeedX;
+            ballPositionY += ballSpeedY;
+
+            if (ballPositionY <= 0 || ballPositionY >= pong.offsetHeight - 15) {
+                ballSpeedY = -ballSpeedY;
+            }
+
+            if (ballPositionX <= 15 && ballPositionY >= leftPaddleY && ballPositionY <= leftPaddleY + 60) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            if (ballPositionX >= pong.offsetWidth - 30 && ballPositionY >= rightPaddleY && ballPositionY <= rightPaddleY + 60) {
+                ballSpeedX = -ballSpeedX;
+            }
+
+            if (ballPositionX <= 0 || ballPositionX >= pong.offsetWidth - 15) {
+                ballPositionX = pong.offsetWidth / 2 - 7.5;
+                ballPositionY = pong.offsetHeight / 2 - 7.5;
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY = 4;
+            }
+
+            leftPaddle.style.top = leftPaddleY + "px";
+            rightPaddle.style.top = rightPaddleY + "px";
+            ball.style.top = ballPositionY + "px";
+            ball.style.left = ballPositionX + "px";
+
+            requestAnimationFrame(updateBallPosition);
+        }
+
+        // Start the game loop
+        updateBallPosition();
+    </script>
+
+</body>
+</html>
