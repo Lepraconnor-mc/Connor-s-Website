@@ -28,16 +28,28 @@
         /* Content section with flexbox */
         .content {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start; /* Aligns the content from the left */
             align-items: flex-start;
             margin-top: 20px;
             padding: 0 20px;
             flex-wrap: wrap;
         }
 
+        /* New Bio text box styling */
+        .bio {
+            width: 40%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: black;
+            font-size: 18px;
+            margin-right: 20px; /* Space between bio and Pong game */
+        }
+
         /* List of shows styling */
         .shows {
-            width: 40%;
+            width: 30%;
             margin-right: 20px;
             font-size: 18px;
             padding: 10px;
@@ -134,17 +146,6 @@
         /* Change the color of the heading */
         .shows h2 {
             color: black; /* Set the color of the heading to black */
-        }
-
-        /* Styling for the new text box */
-        .bio {
-            width: 40%;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            color: black;
-            font-size: 18px;
         }
 
     </style>
