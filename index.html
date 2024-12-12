@@ -28,8 +28,8 @@
         /* Content section with flexbox */
         .content {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-top: 20px;
             padding: 0 20px;
             flex-wrap: wrap;
@@ -37,7 +37,7 @@
 
         /* List of shows styling */
         .shows {
-            width: 50%;
+            width: 40%;
             margin-right: 20px;
             font-size: 18px;
             padding: 10px;
@@ -136,6 +136,17 @@
             color: black; /* Set the color of the heading to black */
         }
 
+        /* Styling for the new text box */
+        .bio {
+            width: 40%;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: black;
+            font-size: 18px;
+        }
+
     </style>
 </head>
 <body>
@@ -143,8 +154,12 @@
     <!-- Title -->
     <div class="title">Connor's Website</div>
 
-    <!-- Content Section: Shows List & Image Box -->
+    <!-- Content Section: Shows List, Bio, & Image Box -->
     <div class="content">
+        <div class="bio">
+            <p>Hello! My name is Connor McLean and I go to Dexter Southfield. My hobbies include theatre, video games, and cooking. I have two sisters and a dog named Dillon. That is pretty much everything, Merry Christmas!</p>
+        </div>
+
         <div class="shows">
             <h2>List of Shows I've Done:</h2>
             <ul>
@@ -155,6 +170,7 @@
                 <li>Percy Jackson: The Lightning Thief - Grover</li>
             </ul>
         </div>
+        
         <div class="image-box">
             <!-- Placeholder for Image -->
             <img id="image" src="LT.jpg" alt="Image">
