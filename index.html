@@ -69,32 +69,23 @@
         }
 
         /* Image box with automatic sizing */
-.image-box {
-    display: inline-block;
-    max-width: 100%;   /* Make the box fill available space */
-    max-height: 400px; /* Set a max height for the box */
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-}
-
- /* Styling for the image inside the box */
-.image-box img {
-    width: 100%;  /* Make the image fill the container width */
-    height: auto; /* Maintain the aspect ratio */
-    object-fit: contain;  /* Ensures the image fits inside the box without being cropped */
-}
-
-            
-        
+        .image-box {
+            display: inline-block;
+            max-width: 100%;   /* Make the box fill available space */
+            max-height: 400px; /* Set a max height for the box */
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center; /* Center content inside the image box */
+        }
 
         /* Styling for the image inside the box */
         .image-box img {
-            width: 100%;  /* Make the image fill the container */
+            width: 100%;  /* Make the image fill the container width */
             height: auto; /* Maintain the aspect ratio */
-            object-fit: contain;  /* Ensures the image is scaled correctly */
+            object-fit: contain;  /* Ensures the image fits inside the box without being cropped */
         }
 
         /* Styling for the Pong game */
@@ -285,3 +276,4 @@
 
 </body>
 </html>
+
